@@ -16,7 +16,7 @@ export const routes: Routes = [
   },
   //  Lazy-loaded route for the auth callback page.
   {
-    path: 'auth-callback',
+    path: 'auth/callback',
     loadComponent: () => import('./auth-callback/auth-callback').then(m => m.AuthCallback),
   },
   // Wildcard route to redirect to the home page for any unknown URLs.
