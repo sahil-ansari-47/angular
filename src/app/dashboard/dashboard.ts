@@ -78,13 +78,22 @@ export class Dashboard {
     { text: 'Uploading to Cloud' },
   ];
   fetchCurrentUser() {
-    fetch(`${this.apiUrl}/api/auth/me`, { credentials: 'include' })
-      .then((res) => res.json())
+    fetch(`${this.apiUrl}/api/auth/me`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    })
+      .then((res) => {
+        if (!res.ok) return null; // don’t parse if unauthorized
+        return res.json();
+      })
       .then((user) => {
-        if (user) {
+        console.log(user);
+        if (user && !user.error) {
           this.userService.setUser(user);
+        } else {
+          this.userService.clearUser();
         }
-      });
+      })
+      .catch(() => this.userService.clearUser());
   }
   private getRelativeTime(date: string | Date): string {
     const now = new Date();
