@@ -23,23 +23,31 @@ export class Header {
   }
 
   fetchCurrentUser() {
-    fetch(`${this.apiUrl}/api/auth/me`, { credentials: 'include' })
-      .then((res) => res.json())
+    fetch(`${this.apiUrl}/api/auth/me`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    })
+      .then((res) => {
+        if (!res.ok) return null; // don’t parse if unauthorized
+        return res.json();
+      })
       .then((user) => {
-        if (user){
-          console.log(user);
-          this.userService.setUser(user)
-        };
-      });
+        console.log(user);
+        if (user && !user.error) {
+          this.userService.setUser(user);
+        } else {
+          this.userService.clearUser();
+        }
+      })
+      .catch(() => this.userService.clearUser());
   }
   openLogin() {
     this.dialog.openDialog();
   }
   logout() {
-    fetch(`${this.apiUrl}/api/logout`, { credentials: 'include' }).then(() =>{
+    fetch(`${this.apiUrl}/api/logout`, { credentials: 'include' }).then(() => {
       this.userService.clearUser();
+      localStorage.removeItem('token');
       window.location.reload();
     });
   }
-
 }

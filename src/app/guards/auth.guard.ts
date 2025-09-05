@@ -8,10 +8,10 @@ export const authGuard: CanActivateFn = async() => {
   const apiUrl = environment.apiUrl;
 
   try {
-    const res = await fetch(`${apiUrl}/api/auth/me`, {
-      method: 'GET',
-      credentials: 'include',
-    });
+    const res = await fetch(`${apiUrl}/api/auth/me`, {headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }}).then((res) => {
+      if (!res.ok) return null; // don’t parse if unauthorized
+      return res.json();
+    })
 
     // Parse JSON
     const user = await res.json();
