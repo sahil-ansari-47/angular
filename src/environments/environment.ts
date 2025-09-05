@@ -1,5 +1,5 @@
 export const environment = {
   production: false,
-  apiUrl: process.env['API_URL'], // or use process.env at build time
-  deployendpoint: process.env['BACKEND_URL'],
+  apiUrl: 'https://jett-middleware.onrender.com', // or use process.env at build time
+  deployendpoint: 'https://jett-upload-service.onrender.com/deploy',
 };
