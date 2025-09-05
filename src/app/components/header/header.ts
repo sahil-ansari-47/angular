@@ -44,10 +44,16 @@ export class Header {
     this.dialog.openDialog();
   }
   logout() {
-    fetch(`${this.apiUrl}/api/logout`, { credentials: 'include' }).then(() => {
-      this.userService.clearUser();
-      localStorage.removeItem('token');
-      window.location.reload();
-    });
-  }
+  const token = localStorage.getItem('token');
+  fetch(`${this.apiUrl}/api/logout`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }).then(() => {
+    this.userService.clearUser();
+    localStorage.removeItem('token');
+    window.location.reload();
+  });
+}
 }
