@@ -17,8 +17,15 @@ export class DrawerComponent {
   constructor(public drawer: DrawerService) {}
   private apiUrl = environment.apiUrl;
   logout() {
-    fetch(`${this.apiUrl}/api/logout`, { credentials: 'include' }).then(() =>{
+    const token = localStorage.getItem('token');
+    fetch(`${this.apiUrl}/api/logout`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then(() => {
       this.user.clearUser();
+      localStorage.removeItem('token');
       window.location.reload();
     });
   }
