@@ -131,6 +131,7 @@ export class Dashboard {
   }
   public dropdownOpen = false;
   opendropdown() {
+    console.log('hit');
     this.dropdownOpen = !this.dropdownOpen;
   }
   closedropdown() {
@@ -139,7 +140,7 @@ export class Dashboard {
   @HostListener('document:click', ['$event'])
   onClickOutside(event: MouseEvent) {
     const target = event.target as HTMLElement;
-    if (!target.closest('.dropdown-container')) {
+    if (!target.closest('.dropdown')) {
       this.closedropdown();
     }
   }

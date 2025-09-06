@@ -53,14 +53,14 @@
               </span>
               <div class="hidden md:block">New Project</div>
             </button>
-            <button (click)="opendropdown()" class="block md:hidden">
+            <button (click)="opendropdown()" class="dropdown block md:hidden">
               <img
                 [src]="user.user?.avatar || '/icons/avatarw.svg'"
                 alt="no Image"
                 class="size-10 cursor-pointer ring-2 ring-logo rounded-full"
               />
               @if(dropdownOpen){
-                <div class="flex flex-col justify-around z-20 overflow-hidden absolute right-8 top-18 bg-p5 text-neutral-100 text-left shadow-lg rounded-lg divide-y divide-gray-">
+                <div class="dropdown flex flex-col justify-around z-20 overflow-hidden absolute right-8 top-18 bg-p5 text-neutral-100 text-left shadow-lg rounded-lg divide-y divide-gray-">
                   <a href="/" class="py-2 px-4">Home</a>
                   <div (click)="logout(); closedropdown()" class="py-2 px-4 active:bg-gray-100 active:text-red-500">Logout</div>
                 </div>
