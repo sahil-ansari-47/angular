@@ -1,4 +1,9 @@
-import { Component, Input, inject, PLATFORM_ID, ViewChild } from '@angular/core';
+import {
+  Component,
+  inject,
+  PLATFORM_ID,
+  HostListener,
+} from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { UserService } from '../services/user';
 import { environment } from '../../environments/environment';
@@ -14,7 +19,6 @@ import { ToasterService } from '../services/toastr';
 import { ToastrComponent } from '../components/toastr/toastr';
 import { RouterLink } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-// import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-dashboard',
   imports: [
@@ -28,7 +32,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   ],
   templateUrl: './dashboard.html',
 })
-export class Dashboard {  
+export class Dashboard {
   public loading = inject(LoadingService);
   private dialog = inject(DialogService);
   private platformId = inject(PLATFORM_ID);
@@ -41,7 +45,7 @@ export class Dashboard {
   constructor(
     public userService: UserService,
     public drawer: DrawerService,
-    private dialogservice: DialogService,
+    private dialogservice: DialogService
   ) {
     // Only fetch user if NOT server-side
     if (isPlatformBrowser(this.platformId)) {
@@ -122,7 +126,47 @@ export class Dashboard {
   createProject() {
     this.dialog.openNewProject();
   }
-
+  public tooltipOpen = false;
+  public dropdownOpen = false;
+  opendropdown() {
+    this.dropdownOpen = !this.dropdownOpen;
+  }
+  opentooltip() {
+    this.tooltipOpen = !this.tooltipOpen;
+  }
+  closetooltip() {
+    this.tooltipOpen = false;
+  }
+  closedropdown() {
+    this.dropdownOpen = false;
+  }
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.dropdown')) {
+      this.closedropdown();
+    }
+  }
+  @HostListener('document:click', ['$event'])
+  onClickOutsideTooltip(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.tooltip')) {
+      this.closetooltip();
+    }
+  }
+  logout() {
+    const token = localStorage.getItem('token');
+    fetch(`${this.apiUrl}/api/logout`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then(() => {
+      this.user.clearUser();
+      localStorage.removeItem('token');
+      window.location.reload();
+    });
+  }
   fetchProjects() {
     if (!this.user.user?._id) {
       console.warn('User not loaded yet, skipping project fetch');
@@ -145,9 +189,11 @@ export class Dashboard {
             } else {
               project.createdAtString = this.getRelativeTime(project.createdAt);
               this.CommunityProjects.push({
-              ...project,
-              safeUrl:this.sanitizer.bypassSecurityTrustResourceUrl(project.deployed_url)
-            });
+                ...project,
+                safeUrl: this.sanitizer.bypassSecurityTrustResourceUrl(
+                  project.deployed_url
+                ),
+              });
               console.log('added to community projects');
             }
           });
@@ -155,5 +201,8 @@ export class Dashboard {
           console.log(e);
         }
       });
+  }
+  followUrl(deployed_url: string){
+    window.open(deployed_url, '_blank');
   }
 }

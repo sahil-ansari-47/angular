@@ -1,4 +1,7 @@
-<app-drawer [userprojects]="UserProjects.length" [communityprojects]="CommunityProjects.length"></app-drawer>
+<app-drawer
+  [userprojects]="UserProjects.length"
+  [communityprojects]="CommunityProjects.length"
+></app-drawer>
 <app-mutli-step-loader
   [loadingStates]="loadingStates"
   [duration]="2000"
@@ -13,52 +16,7 @@
     'w-screen': !drawer.isOpen()
   }"
 >
-  <img src="/Logolarge.png" alt="" class="absolute top-0 left-0 blur-sm" />
   <div class="flex min-w-0 flex-1 flex-col">
-    <!-- <header
-      class="border-b border-gray-200 bg-gradient-to-l from-neutral-500 to-neutral-300"
-    > -->
-    <!-- <div class="flex h-16 items-center justify-between px-6">
-        <div class="flex items-center gap-3">
-          @if(!(this.drawer.isOpen())){
-          <img
-            (click)="drawer.open()"
-            src="/icons/sidebarb.svg"
-            alt=""
-            class="hidden md:block cursor-pointer size-8"
-          />
-          }
-          <img src="/Logo.png" alt="" class="size-8 block md:hidden" />
-          <h1 class="text-lg text-black font-semibold tracking-tight">
-            Jett Dashboard
-          </h1>
-        </div>
-        <div class="flex items-center justify-end">
-          <button
-            class="inline-flex items-center cursor-pointer gap-2 rounded-2xl bg-white px-4 py-2 text-sm font-medium text-black shadow-sm hover:bg-neutral-300"
-            (click)="createProject()"
-          >
-            <span class="flex h-6 w-6 items-center justify-center">
-              <svg
-                class="h-4 w-4"
-                viewBox="0 0 24 24"
-                fill="none"
-                aria-hidden="true"
-              >
-                <path
-                  d="M12 5v14M5 12h14"
-                  stroke="currentColor"
-                  stroke-width="1.8"
-                  stroke-linecap="round"
-                />
-              </svg>
-            </span>
-            New Project
-          </button>
-        </div>
-      </div> -->
-    <!-- </header> -->
-
     <main class="w-full pb-6">
       <section class="min-h-100 overflow-hidden text-white shadow-lg w-full">
         <div class="bg-black flex h-16 items-center justify-between px-6">
@@ -71,19 +29,21 @@
               class="hidden md:block cursor-pointer size-8"
             />
             }
-            <img src="/Logo.png" alt="" class="size-8 block md:hidden" />
+            <a href="/"
+              ><img src="/Logo.png" alt="" class="size-8 block md:hidden"
+            /></a>
             <h1 class="text-lg text-white font-semibold tracking-tight">
               Jett Dashboard
             </h1>
           </div>
-          <div class="flex items-center justify-end">
+          <div class="flex items-center gap-3">
             <button
-              class="inline-flex items-center cursor-pointer gap-2 rounded-2xl bg-white px-4 py-2 text-sm font-medium text-black shadow-sm hover:bg-neutral-300"
+              class="rounded-full md:rounded-2xl inline-flex items-center cursor-pointer gap-2 bg-white px-2 md:px-4 py-2 text-sm font-medium text-black shadow-sm hover:bg-neutral-300"
               (click)="createProject()"
             >
               <span class="flex h-6 w-6 items-center justify-center">
                 <svg
-                  class="h-4 w-4"
+                  class="h-6 w-6 md:h-4 md:w-4"
                   viewBox="0 0 24 24"
                   fill="none"
                   aria-hidden="true"
@@ -96,7 +56,27 @@
                   />
                 </svg>
               </span>
-              New Project
+              <div class="hidden md:block">New Project</div>
+            </button>
+            <button (click)="opendropdown()" class="dropdown block md:hidden">
+              <img
+                [src]="user.user?.avatar || '/icons/avatarw.svg'"
+                alt="no Image"
+                class="size-10 cursor-pointer ring-2 ring-logo rounded-full"
+              />
+              @if(dropdownOpen){
+              <div
+                class="dropdown flex flex-col justify-around z-20 overflow-hidden absolute right-8 top-18 bg-p5 text-neutral-100 text-left shadow-lg rounded-lg divide-y divide-gray-"
+              >
+                <a href="/" class="py-2 px-4">Home</a>
+                <div
+                  (click)="logout(); closedropdown()"
+                  class="py-2 px-4 active:bg-gray-100 active:text-red-500"
+                >
+                  Logout
+                </div>
+              </div>
+              }
             </button>
           </div>
         </div>
@@ -125,14 +105,14 @@
             <div class="mt-6 flex flex-wrap gap-3">
               <button
                 (click)="createProject()"
-                class="inline-flex cursor-pointer items-center rounded-2xl bg-white px-5 py-2 text-sm font-medium text-gray-900 shadow-sm hover:bg-gray-100"
+                class="inline-flex cursor-pointer items-center rounded-2xl bg-white px-5 py-2 text-sm font-medium text-gray-900 shadow-sm hover:bg-gray-400 hover:text-gray-50"
               >
                 Start Deploying
               </button>
               <a
                 [routerLink]="['/dashboard']"
                 fragment="community"
-                class="inline-flex items-center rounded-2xl bg-black/20 px-5 py-2 text-sm font-medium text-white ring-1 ring-white/40 hover:bg-white/10"
+                class="cursor-pointer inline-flex items-center rounded-2xl bg-black/20 px-5 py-2 text-sm font-medium text-white ring-1 ring-white/40 hover:bg-white/10"
               >
                 Our Community
               </a>
@@ -145,13 +125,29 @@
         aria-labelledby="recent-apps-title"
         class="px-8 pt-10 mx-auto"
       >
-        <header class="mb-4">
+        <header class="mb-4 flex items-center gap-2">
           <h2
             id="recent-apps-title"
             class="text-2xl font-semibold text-white text-balance"
+            aria
           >
             Your Projects
           </h2>
+          <div class="tooltip relative group">
+            <img
+              (click)="opentooltip()"
+              src="/icons/info.svg"
+              alt="Info"
+              class="size-6 cursor-pointer translate-y-0.5"
+            />
+            @if(tooltipOpen){
+            <span
+              class="absolute text-center left-1/2 -translate-x-3/4 sm:translate-0 w-[200px] mt-2 rounded-md bg-black text-white text-sm px-2 py-1 shadow-lg"
+            >
+              If you have already deployed a project and it does not show, try
+              refreshing the page. </span
+            >}
+          </div>
         </header>
         @if(UserProjects.length == 0){
         <h2 class="text-neutral-500 font-semibold text-2xl mb-4 pl-8">
@@ -275,19 +271,6 @@
                     class="mt-0.5 rounded-lg bg-gray-100 text-gray-600 p-2 w-[32px]"
                     aria-hidden="true"
                   >
-                    <!-- <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="size-4"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="1.75"
-                    >
-                      <path d="M6 3v8a4 4 0 0 0 4 4h5"></path>
-                      <circle cx="6" cy="3" r="2"></circle>
-                      <circle cx="10" cy="15" r="2"></circle>
-                      <circle cx="15" cy="15" r="2"></circle>
-                    </svg> -->
                     <img src="/icons/branch.svg" alt="" class="size-4" />
                   </div>
                   <div class="w-full">
@@ -350,74 +333,16 @@
         <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           @for(project of CommunityProjects ; track project.deploy_id){
           <article
-            class="group w-full max-w-sm overflow-hidden rounded-[1.5rem] border border-neutral-200 bg-white shadow-sm transition-shadow hover:shadow-md"
+            class="group w-full overflow-hidden rounded-[1.5rem] border border-neutral-200 bg-white shadow-sm transition-shadow hover:shadow-md"
             aria-label="Design shot card"
           >
-            <div class="relative h-52 bg-neutral-900">
-              <iframe [src]="project.safeUrl" frameborder="0" scrolling="no" class="w-full h-full object-cover overflow-hidden"></iframe>
-              <!-- <img
-                src="placeholder.jpg"
-                alt=""
-                class="h-full w-full object-cover"
-              /> -->
-              <!-- <ng-template #placeholder>
-                <div class="absolute inset-0 flex items-center justify-center">
-                  <svg
-                    class="h-36 w-36 text-neutral-200"
-                    viewBox="0 0 144 144"
-                    fill="none"
-                    aria-hidden="true"
-                  >
-                    <circle
-                      cx="72"
-                      cy="72"
-                      r="56"
-                      stroke="currentColor"
-                      stroke-width="1"
-                    />
-                    <circle
-                      cx="72"
-                      cy="72"
-                      r="32"
-                      stroke="currentColor"
-                      stroke-width="1"
-                    />
-                    <line
-                      x1="72"
-                      y1="8"
-                      x2="72"
-                      y2="136"
-                      stroke="currentColor"
-                      stroke-width="1"
-                    />
-                    <line
-                      x1="8"
-                      y1="72"
-                      x2="136"
-                      y2="72"
-                      stroke="currentColor"
-                      stroke-width="1"
-                    />
-                  </svg>
-                  <div
-                    class="absolute grid h-10 w-10 place-items-center rounded-full border border-neutral-200 bg-white/80 backdrop-blur"
-                    aria-hidden="true"
-                  >
-                    <svg
-                      class="h-5 w-5 text-neutral-500"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="1.75"
-                    >
-                      <rect x="3" y="5" width="18" height="14" rx="2" />
-                      <path d="M8 13l2.5-2.5 3 3L17 10l3 3" />
-                      <circle cx="9" cy="9" r="1.5" fill="currentColor" />
-                    </svg>
-                    <span class="sr-only">Image placeholder</span>
-                  </div>
-                </div>
-              </ng-template> -->
+            <div (click)="followUrl(project.deployed_url)" class="relative h-52 bg-neutral-900">
+              <iframe
+                [src]="project.safeUrl"
+                frameborder="0"
+                scrolling="no"
+                class="w-full h-full object-cover overflow-hidden"
+              ></iframe>
             </div>
 
             <div class="bg-white flex justify-between items-center pr-6">
