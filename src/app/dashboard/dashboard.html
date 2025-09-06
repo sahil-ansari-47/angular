@@ -1,4 +1,7 @@
-<app-drawer [userprojects]="UserProjects.length" [communityprojects]="CommunityProjects.length"></app-drawer>
+<app-drawer
+  [userprojects]="UserProjects.length"
+  [communityprojects]="CommunityProjects.length"
+></app-drawer>
 <app-mutli-step-loader
   [loadingStates]="loadingStates"
   [duration]="2000"
@@ -26,7 +29,9 @@
               class="hidden md:block cursor-pointer size-8"
             />
             }
-            <img src="/Logo.png" alt="" class="size-8 block md:hidden" />
+            <a href="/"
+              ><img src="/Logo.png" alt="" class="size-8 block md:hidden"
+            /></a>
             <h1 class="text-lg text-white font-semibold tracking-tight">
               Jett Dashboard
             </h1>
@@ -60,10 +65,17 @@
                 class="size-10 cursor-pointer ring-2 ring-logo rounded-full"
               />
               @if(dropdownOpen){
-                <div class="dropdown flex flex-col justify-around z-20 overflow-hidden absolute right-8 top-18 bg-p5 text-neutral-100 text-left shadow-lg rounded-lg divide-y divide-gray-">
-                  <a href="/" class="py-2 px-4">Home</a>
-                  <div (click)="logout(); closedropdown()" class="py-2 px-4 active:bg-gray-100 active:text-red-500">Logout</div>
+              <div
+                class="dropdown flex flex-col justify-around z-20 overflow-hidden absolute right-8 top-18 bg-p5 text-neutral-100 text-left shadow-lg rounded-lg divide-y divide-gray-"
+              >
+                <a href="/" class="py-2 px-4">Home</a>
+                <div
+                  (click)="logout(); closedropdown()"
+                  class="py-2 px-4 active:bg-gray-100 active:text-red-500"
+                >
+                  Logout
                 </div>
+              </div>
               }
             </button>
           </div>
@@ -93,14 +105,14 @@
             <div class="mt-6 flex flex-wrap gap-3">
               <button
                 (click)="createProject()"
-                class="inline-flex cursor-pointer items-center rounded-2xl bg-white px-5 py-2 text-sm font-medium text-gray-900 shadow-sm hover:bg-gray-100"
+                class="inline-flex cursor-pointer items-center rounded-2xl bg-white px-5 py-2 text-sm font-medium text-gray-900 shadow-sm hover:bg-gray-400 hover:text-gray-50"
               >
                 Start Deploying
               </button>
               <a
                 [routerLink]="['/dashboard']"
                 fragment="community"
-                class="inline-flex items-center rounded-2xl bg-black/20 px-5 py-2 text-sm font-medium text-white ring-1 ring-white/40 hover:bg-white/10"
+                class="cursor-pointer inline-flex items-center rounded-2xl bg-black/20 px-5 py-2 text-sm font-medium text-white ring-1 ring-white/40 hover:bg-white/10"
               >
                 Our Community
               </a>
@@ -113,13 +125,27 @@
         aria-labelledby="recent-apps-title"
         class="px-8 pt-10 mx-auto"
       >
-        <header class="mb-4">
+        <header class="mb-4 flex items-center gap-2">
           <h2
             id="recent-apps-title"
             class="text-2xl font-semibold text-white text-balance"
+            aria
           >
             Your Projects
           </h2>
+          <div class="relative group">
+            <img
+              src="/icons/info.svg"
+              alt="Info"
+              class="size-6 cursor-pointer translate-y-0.5"
+            />
+            <span
+              class="absolute text-center left-1/2 -translate-x-3/4 sm:translate-0 w-[200px] mt-2 hidden group-hover:block rounded-md bg-black text-white text-sm px-2 py-1 shadow-lg"
+            >
+              If you have already deployed a project and it does not show, try
+              refreshing the page.
+            </span>
+          </div>
         </header>
         @if(UserProjects.length == 0){
         <h2 class="text-neutral-500 font-semibold text-2xl mb-4 pl-8">
@@ -308,8 +334,16 @@
             class="group w-full overflow-hidden rounded-[1.5rem] border border-neutral-200 bg-white shadow-sm transition-shadow hover:shadow-md"
             aria-label="Design shot card"
           >
-            <a href="{{ project.deployed_url }}" class="relative h-52 bg-neutral-900">
-              <iframe [src]="project.safeUrl" frameborder="0" scrolling="no" class="w-full h-full object-cover overflow-hidden"></iframe>
+            <a
+              href="{{ project.deployed_url }}"
+              class="relative h-52 bg-neutral-900"
+            >
+              <iframe
+                [src]="project.safeUrl"
+                frameborder="0"
+                scrolling="no"
+                class="w-full h-full object-cover overflow-hidden"
+              ></iframe>
             </a>
 
             <div class="bg-white flex justify-between items-center pr-6">
