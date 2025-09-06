@@ -52,7 +52,7 @@ export class Card implements OnChanges, OnDestroy {
             this.project.deployed_url = updated.deployed_url;
             console.log(this.project.status);
             console.log(this.project.deployed_url);
-            const message= this.project.status === 'deployed' ? 'Project has been deployed successfully' : this.project.status === 'uploaded' ? 'Uploaded to Cloud' : 'Building ffiles...';
+            const message= this.project.status === 'deployed' ? 'Project has been deployed successfully' : this.project.status === 'uploaded' ? 'Uploaded to Cloud' : 'Building files...';
             if(this.counts[this.project.status] === 0) {
               
               this.showToast(message, this.project.status);

@@ -6,12 +6,10 @@
   <div class="gc gc3 moveInCircle"></div>
   <div appInteractiveBubble class="interactive"></div>
   <app-header />
+  <app-mobile-nav />
   }
   <main>
     <router-outlet />
   </main>
-  @if(!isCallback){
-    <app-mobile-nav />
-  }
   <app-footer />
 </div>

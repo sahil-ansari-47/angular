@@ -20,6 +20,7 @@ import { ToastrComponent } from '../components/toastr/toastr';
 import { RouterLink } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { AuthCallback } from '../auth-callback/auth-callback';
+import { MobileNav } from "../components/mobile-nav/mobile-nav";
 @Component({
   selector: 'app-dashboard',
   imports: [
@@ -30,8 +31,9 @@ import { AuthCallback } from '../auth-callback/auth-callback';
     Card,
     ToastrComponent,
     RouterLink,
-    AuthCallback
-  ],
+    AuthCallback,
+    MobileNav
+],
   templateUrl: './dashboard.html',
 })
 export class Dashboard {

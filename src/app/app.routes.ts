@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
-import { authGuard } from './guards/auth.guard'; // Assuming you have an authGuard.ts file
-import { AuthCallback } from './auth-callback/auth-callback';
+import { authGuard } from './guards/auth.guard'; 
 
 export const routes: Routes = [
   // Lazy-loaded route for the home page.
@@ -19,7 +18,7 @@ export const routes: Routes = [
   //  Lazy-loaded route for the auth callback page.
   {
     path: 'auth/callback',
-    component: AuthCallback,
+    loadComponent: () => import('./auth-callback/auth-callback').then((m) => m.AuthCallback),
   },
   // Wildcard route to redirect to the home page for any unknown URLs.
   {

@@ -98,7 +98,7 @@
     display: none;
   }
   .loader {
-    width: 40px;
+    width: clamp(30px,10vw,40px);
     aspect-ratio: 1;
     color: var(--color-logo);
     background: conic-gradient(currentColor 0 270deg, #0000 0);
@@ -118,7 +118,7 @@
     font-weight: bold;
     font-family: monospace;
     display: inline-grid;
-    font-size: 30px;
+    font-size: clamp(1rem, 4vw, 3rem);
     --loader-text: 'Loading Dashboard'
   }
   .text-loader:before,

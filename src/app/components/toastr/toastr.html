@@ -1,7 +1,7 @@
 <div class="z-10">
   @for(toast of toasts; track toast) {
   <div
-    class="overflow-x-clip fixed top-10 right-10 rounded-2xl bg-p5/70 z-20 px-5 py-5 flex items-center gap-2"
+    class="overflow-x-clip fixed top-10 right-10 rounded-2xl bg-p5/70 z-20 px-5 py-5 flex items-center gap-4"
     [ngClass]="toast.type"
     [@toastAnimation]
   >
@@ -12,8 +12,8 @@
       />
     </div>
     <div class=" text-white">{{ toast.message }}</div>
-    <button class="text-white font-semibold text-lg" (click)="removeToast(toast.id)">
-      X
+    <button class="text-white font-semibold text-lg cursor-pointer" (click)="removeToast(toast.id)">
+      x
     </button>
   </div>
   }
