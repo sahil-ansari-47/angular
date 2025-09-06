@@ -10,6 +10,8 @@
   <main>
     <router-outlet />
   </main>
-  <app-mobile-nav />
-  <app-footer />
+  @if(!isCallback){
+    <app-mobile-nav />
+    <app-footer />
+  }
 </div>

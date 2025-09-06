@@ -62,10 +62,6 @@
     animation: moveVertical 30s ease-in-out infinite;
     will-change: transform;
   }
-  .toast-loader {
-    @apply bg-amber-500 h-1 w-full rounded-2xl absolute bottom-0 left-0;
-    animation: loader 3s linear forwards;
-  }
   .moveHorizontal {
     animation: moveHorizontal 30s ease-in-out infinite;
     will-change: transform;
@@ -101,15 +97,102 @@
     appearance: none;
     display: none;
   }
+  .loader {
+    width: 40px;
+    aspect-ratio: 1;
+    color: var(--color-logo);
+    background: conic-gradient(currentColor 0 270deg, #0000 0);
+    border-radius: 50%;
+    animation: l14-0 4s infinite linear;
+  }
+  .loader::before {
+    content: "";
+    display: block;
+    height: 50%;
+    width: 50%;
+    border-top-left-radius: 100px;
+    background: currentColor;
+    animation: l14 0.5s infinite alternate;
+  }
+  .text-loader {
+    font-weight: bold;
+    font-family: monospace;
+    display: inline-grid;
+    font-size: 30px;
+  }
+  .text-loader:before,
+  .text-loader:after {
+    content: "Logging in";
+    grid-area: 1/1;
+    -webkit-mask-size: 2ch 100%, 100% 100%;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: l37 1s infinite;
+  }
+  .text-loader:before {
+    -webkit-mask-image: linear-gradient(#000 0 0), linear-gradient(#000 0 0);
+  }
+  .text-loader:after {
+    -webkit-mask-image: linear-gradient(#000 0 0);
+    transform: scaleY(0.5);
+  }
 }
-@keyframes loader {
+
+@keyframes l37 {
   0% {
-    transform: translateX(-100%);
+    -webkit-mask-position: 1ch 0, 0 0;
+  }
+  12.5% {
+    -webkit-mask-position: 100% 0, 0 0;
+  }
+  25% {
+    -webkit-mask-position: 4ch 0, 0 0;
+  }
+  37.5% {
+    -webkit-mask-position: 8ch 0, 0 0;
+  }
+  50% {
+    -webkit-mask-position: 2ch 0, 0 0;
+  }
+  62.5% {
+    -webkit-mask-position: 100% 0, 0 0;
+  }
+  75% {
+    -webkit-mask-position: 0ch 0, 0 0;
+  }
+  87.5% {
+    -webkit-mask-position: 6ch 0, 0 0;
   }
   100% {
-    transform: translateX(0);
+    -webkit-mask-position: 3ch 0, 0 0;
   }
 }
+
+@keyframes l14-0 {
+  0%,
+  24.99% {
+    transform: rotate(0deg);
+  }
+  25%,
+  49.99% {
+    transform: rotate(90deg);
+  }
+  50%,
+  74.99% {
+    transform: rotate(180deg);
+  }
+  75%,
+  100% {
+    transform: rotate(270deg);
+  }
+}
+@keyframes l14 {
+  100% {
+    transform: translate(-10px, -10px);
+  }
+}
+
 @keyframes moveInCircle {
   0% {
     transform: rotate(0deg);

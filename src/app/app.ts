@@ -18,4 +18,7 @@ export class App {
   get isHome(): boolean {
     return this.router.url === '/' || window.location.hash === '#about';
   }
+  get isCallback(): boolean {
+    return this.router.url === '/auth-callback';
+  }
 }
