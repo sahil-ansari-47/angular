@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class AuthCallback implements OnInit {
   private router = inject(Router);
-  @Input() text: string = 'Logging in';
+  @Input() text: string = 'Loading Dashboard';
 
   constructor(private el: ElementRef, private renderer: Renderer2) {}
 
