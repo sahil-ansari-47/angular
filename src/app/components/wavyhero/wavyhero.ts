@@ -46,6 +46,7 @@ export class WavyHeroComponent implements AfterViewInit, OnDestroy {
   private h = 0;
   private nt = 0;
   private animationId: number | null = null;
+  private resizeObserver?: ResizeObserver;
   isSafari = false;
 
   ngAfterViewInit(): void {
@@ -65,6 +66,13 @@ export class WavyHeroComponent implements AfterViewInit, OnDestroy {
     this.ctx.filter = `blur(${this.blur}px)`;
     this.nt = 0;
     this.start();
+    if (this.containerRef) {
+      this.resizeObserver = new ResizeObserver(() => {
+        this.resizeCanvas();
+        this.ctx.filter = `blur(${this.blur}px)`;
+      });
+      this.resizeObserver.observe(this.containerRef);
+    }
   }
 
   @HostListener('window:resize')
@@ -78,6 +86,10 @@ export class WavyHeroComponent implements AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.stop();
+    if (this.resizeObserver && this.containerRef) {
+      this.resizeObserver.unobserve(this.containerRef);
+      this.resizeObserver.disconnect();
+    }
   }
 
   private start() {
