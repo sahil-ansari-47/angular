@@ -129,10 +129,16 @@ export class Dashboard {
   createProject() {
     this.dialog.openNewProject();
   }
+  public tooltipOpen = false;
   public dropdownOpen = false;
   opendropdown() {
-    console.log('hit');
     this.dropdownOpen = !this.dropdownOpen;
+  }
+  opentooltip() {
+    this.tooltipOpen = !this.tooltipOpen;
+  }
+  closetooltip() {
+    this.tooltipOpen = false;
   }
   closedropdown() {
     this.dropdownOpen = false;
@@ -142,6 +148,13 @@ export class Dashboard {
     const target = event.target as HTMLElement;
     if (!target.closest('.dropdown')) {
       this.closedropdown();
+    }
+  }
+  @HostListener('document:click', ['$event'])
+  onClickOutsideTooltip(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.tooltip')) {
+      this.closetooltip();
     }
   }
   logout() {
@@ -191,5 +204,8 @@ export class Dashboard {
           console.log(e);
         }
       });
+  }
+  followUrl(deployed_url: string){
+    window.open(deployed_url, '_blank');
   }
 }

@@ -133,18 +133,20 @@
           >
             Your Projects
           </h2>
-          <div class="relative group">
+          <div class="tooltip relative group">
             <img
+              (click)="opentooltip()"
               src="/icons/info.svg"
               alt="Info"
               class="size-6 cursor-pointer translate-y-0.5"
             />
+            @if(tooltipOpen){
             <span
-              class="absolute text-center left-1/2 -translate-x-3/4 sm:translate-0 w-[200px] mt-2 hidden group-hover:block rounded-md bg-black text-white text-sm px-2 py-1 shadow-lg"
+              class="absolute text-center left-1/2 -translate-x-3/4 sm:translate-0 w-[200px] mt-2 rounded-md bg-black text-white text-sm px-2 py-1 shadow-lg"
             >
               If you have already deployed a project and it does not show, try
-              refreshing the page.
-            </span>
+              refreshing the page. </span
+            >}
           </div>
         </header>
         @if(UserProjects.length == 0){
@@ -334,17 +336,14 @@
             class="group w-full overflow-hidden rounded-[1.5rem] border border-neutral-200 bg-white shadow-sm transition-shadow hover:shadow-md"
             aria-label="Design shot card"
           >
-            <a
-              href="{{ project.deployed_url }}"
-              class="relative h-52 bg-neutral-900"
-            >
+            <div (click)="followUrl(project.deployed_url)" class="relative h-52 bg-neutral-900">
               <iframe
                 [src]="project.safeUrl"
                 frameborder="0"
                 scrolling="no"
                 class="w-full h-full object-cover overflow-hidden"
               ></iframe>
-            </a>
+            </div>
 
             <div class="bg-white flex justify-between items-center pr-6">
               <div class="px-5 py-4 md:px-6 md:py-5">
