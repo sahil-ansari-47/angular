@@ -85,7 +85,9 @@ export class NewDialog implements OnInit, OnDestroy {
   async fetchUserRepos() {
     try {
       const res = await fetch(`${this.apiUrl}/api/github/repos`, {
-        credentials: 'include',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        }
       });
       const repos = await res.json();
       console.log(repos);
