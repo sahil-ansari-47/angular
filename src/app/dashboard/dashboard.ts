@@ -32,16 +32,15 @@ export class Dashboard {
   private dialog = inject(DialogService);
   private platformId = inject(PLATFORM_ID);
   private apiUrl = environment.apiUrl;
+  public user = inject(UserService);
   private toasterService = inject(ToasterService);
   public UserProjects: Project[] = [];
   public CommunityProjects: Project[] = [];
   constructor(
     public userService: UserService,
     public drawer: DrawerService,
-    private dialogservice: DialogService
-  ) // private toasterService: ToasterService
-
-  {
+    private dialogservice: DialogService // private toasterService: ToasterService
+  ) {
     // Only fetch user if NOT server-side
     if (isPlatformBrowser(this.platformId)) {
       this.fetchCurrentUser();
@@ -87,7 +86,7 @@ export class Dashboard {
         return res.json();
       })
       .then((user) => {
-        console.log(user);
+        console.log('dashboard', user);
         if (user && !user.error) {
           this.userService.setUser(user);
         } else {
@@ -139,16 +138,17 @@ export class Dashboard {
 
         try {
           projects.forEach((project) => {
-            console.log(this.userService.user._id);
-            if (project.user_id === this.userService.user._id) {
+            console.log(this.user.user._id);
+            if (project.user_id === this.user.user._id) {
               project.last_commit_datetime = this.getRelativeTime(
                 project.last_commit_datetime
               );
               this.UserProjects.push(project);
+              console.log('added to userprojects');
             } else {
-              console.log(project);
               project.createdAtString = this.getRelativeTime(project.createdAt);
               this.CommunityProjects.push(project);
+              console.log('added to community projects');
             }
           });
         } catch (e) {
