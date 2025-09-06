@@ -137,6 +137,9 @@
     -webkit-mask-image: linear-gradient(#ffffff 0 0);
     transform: scaleY(0.5);
   }
+  canvas{
+   transition: transform 0.3s ease ;
+  }
 }
 
 @keyframes l37 {
