@@ -1,43 +1,35 @@
+import { CanActivateFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
-import { Router } from '@angular/router';
-import { UserService } from '../services/user';
 import { environment } from '../../environments/environment';
 
-export const authGuard = async () => {
+export const authGuard: CanActivateFn = async () => {
   const router = inject(Router);
-  const userService = inject(UserService);
   const apiUrl = environment.apiUrl;
 
-  if (localStorage.getItem('user')) return true;
-  // ✅ if we already have a user in memory, no need to block
-  if (userService.user) {
-    return true;
-  }
-
-  const token = localStorage.getItem('token');
-  if (!token) {
-    return router.createUrlTree(['/']); // or login
-  }
-
-  // otherwise fetch once from API
   try {
-    const res = await fetch(`${apiUrl}/api/auth/me`, {
-      headers: { Authorization: `Bearer ${token}` },
+    const response = await fetch(`${apiUrl}/api/auth/me`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     });
 
-    if (!res.ok) {
-      localStorage.removeItem('token');
-      return router.createUrlTree(['/']);
+    if (!response.ok) {
+      console.log('authGuard: unauthorized');
+      router.navigate(['/']);
+      return false;
     }
 
-    const user = await res.json();
+    const user = await response.json();
+
     if (user && !user.error) {
-      userService.setUser(user);
+      console.log('authGuard user', user);
       return true;
+    } else {
+      console.log('authGuard no user');
+      router.navigate(['/']);
+      return false;
     }
   } catch (err) {
-    console.error(err);
+    console.error('authGuard error:', err);
+    router.navigate(['/']);
+    return false;
   }
-
-  return router.createUrlTree(['/']);
 };
