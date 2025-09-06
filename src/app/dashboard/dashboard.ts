@@ -1,9 +1,7 @@
 import {
   Component,
-  Input,
   inject,
   PLATFORM_ID,
-  ViewChild,
   HostListener,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
@@ -21,7 +19,6 @@ import { ToasterService } from '../services/toastr';
 import { ToastrComponent } from '../components/toastr/toastr';
 import { RouterLink } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-// import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-dashboard',
   imports: [
@@ -38,7 +35,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 export class Dashboard {
   public loading = inject(LoadingService);
   private dialog = inject(DialogService);
-  private platformId = inject(PLATFORM_ID);
+  // private platformId = inject(PLATFORM_ID);
   private apiUrl = environment.apiUrl;
   public user = inject(UserService);
   private sanitizer = inject(DomSanitizer);
@@ -51,9 +48,9 @@ export class Dashboard {
     private dialogservice: DialogService
   ) {
     // Only fetch user if NOT server-side
-    if (isPlatformBrowser(this.platformId)) {
-      this.fetchCurrentUser();
-    }
+    // if (isPlatformBrowser(this.platformId)) {
+    //   this.fetchCurrentUser();
+    // }
     this.dialogservice.projectCreated$.subscribe(() => {
       this.UserProjects = [];
       this.CommunityProjects = [];
@@ -76,25 +73,25 @@ export class Dashboard {
     { text: 'Almost There!' },
     { text: 'Uploading to Cloud' },
   ];
-  fetchCurrentUser() {
-    fetch(`${this.apiUrl}/api/auth/me`, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-    })
-      .then((res) => {
-        if (!res.ok) return null; // don’t parse if unauthorized
-        return res.json();
-      })
-      .then((user) => {
-        console.log('dashboard', user);
-        if (user && !user.error) {
-          this.userService.setUser(user);
-          this.fetchProjects();
-        } else {
-          this.userService.clearUser();
-        }
-      })
-      .catch(() => this.userService.clearUser());
-  }
+  // fetchCurrentUser() {
+  //   fetch(`${this.apiUrl}/api/auth/me`, {
+  //     headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+  //   })
+  //     .then((res) => {
+  //       if (!res.ok) return null; // don’t parse if unauthorized
+  //       return res.json();
+  //     })
+  //     .then((user) => {
+  //       console.log('dashboard', user);
+  //       if (user && !user.error) {
+  //         this.userService.setUser(user);
+  //         this.fetchProjects();
+  //       } else {
+  //         this.userService.clearUser();
+  //       }
+  //     })
+  //     .catch(() => this.userService.clearUser());
+  // }
   private getRelativeTime(date: string | Date): string {
     const now = new Date();
     let diffMs: number = 0;
