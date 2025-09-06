@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-// import { authGuard } from './guards/auth.guard'; // Assuming you have an authGuard.ts file
+import { authGuard } from './guards/auth.guard'; // Assuming you have an authGuard.ts file
 
 export const routes: Routes = [
   // Lazy-loaded route for the home page.
@@ -11,7 +11,7 @@ export const routes: Routes = [
   // Protected, lazy-loaded route for the dashboard.
   {
     path: 'dashboard',
-    // canActivate: [authGuard],
+    canActivate: [authGuard],
     loadComponent: () => import('./dashboard/dashboard').then(m => m.Dashboard),
   },
   //  Lazy-loaded route for the auth callback page.
