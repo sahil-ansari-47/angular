@@ -23,7 +23,7 @@ import { RouterLink } from '@angular/router';
     WavyHeroComponent,
     Card,
     ToastrComponent,
-    RouterLink
+    RouterLink,
   ],
   templateUrl: './dashboard.html',
 })
@@ -40,10 +40,10 @@ export class Dashboard {
   constructor(
     public userService: UserService,
     public drawer: DrawerService,
-    private dialogservice: DialogService,
-    // private toasterService: ToasterService
+    private dialogservice: DialogService
+  ) // private toasterService: ToasterService
 
-  ) {
+  {
     // Only fetch user if NOT server-side
     if (isPlatformBrowser(this.platformId)) {
       this.fetchCurrentUser();
@@ -55,8 +55,11 @@ export class Dashboard {
       this.fetchProjects();
     });
   }
-  
-  showToast(msg:string, type: 'uploaded' | 'building' | 'deployed' | 'failed') {
+
+  showToast(
+    msg: string,
+    type: 'uploaded' | 'building' | 'deployed' | 'failed'
+  ) {
     console.log(msg, type);
     this.toasterService.success(msg, type);
   }
@@ -131,7 +134,7 @@ export class Dashboard {
   }
 
   fetchProjects() {
-    fetch(`${this.apiUrl}/api/projects`, { credentials: 'include' })
+    fetch(`${this.apiUrl}/api/projects`)
       .then((res) => res.json())
       .then((projects: Project[]) => {
         console.log(projects);
