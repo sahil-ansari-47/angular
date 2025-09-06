@@ -13,52 +13,7 @@
     'w-screen': !drawer.isOpen()
   }"
 >
-  <img src="/Logolarge.png" alt="" class="absolute top-0 left-0 blur-sm" />
   <div class="flex min-w-0 flex-1 flex-col">
-    <!-- <header
-      class="border-b border-gray-200 bg-gradient-to-l from-neutral-500 to-neutral-300"
-    > -->
-    <!-- <div class="flex h-16 items-center justify-between px-6">
-        <div class="flex items-center gap-3">
-          @if(!(this.drawer.isOpen())){
-          <img
-            (click)="drawer.open()"
-            src="/icons/sidebarb.svg"
-            alt=""
-            class="hidden md:block cursor-pointer size-8"
-          />
-          }
-          <img src="/Logo.png" alt="" class="size-8 block md:hidden" />
-          <h1 class="text-lg text-black font-semibold tracking-tight">
-            Jett Dashboard
-          </h1>
-        </div>
-        <div class="flex items-center justify-end">
-          <button
-            class="inline-flex items-center cursor-pointer gap-2 rounded-2xl bg-white px-4 py-2 text-sm font-medium text-black shadow-sm hover:bg-neutral-300"
-            (click)="createProject()"
-          >
-            <span class="flex h-6 w-6 items-center justify-center">
-              <svg
-                class="h-4 w-4"
-                viewBox="0 0 24 24"
-                fill="none"
-                aria-hidden="true"
-              >
-                <path
-                  d="M12 5v14M5 12h14"
-                  stroke="currentColor"
-                  stroke-width="1.8"
-                  stroke-linecap="round"
-                />
-              </svg>
-            </span>
-            New Project
-          </button>
-        </div>
-      </div> -->
-    <!-- </header> -->
-
     <main class="w-full pb-6">
       <section class="min-h-100 overflow-hidden text-white shadow-lg w-full">
         <div class="bg-black flex h-16 items-center justify-between px-6">
@@ -76,14 +31,14 @@
               Jett Dashboard
             </h1>
           </div>
-          <div class="flex items-center justify-end">
+          <div class="flex items-center gap-3">
             <button
-              class="inline-flex items-center cursor-pointer gap-2 rounded-2xl bg-white px-4 py-2 text-sm font-medium text-black shadow-sm hover:bg-neutral-300"
+              class="rounded-full md:rounded-2xl inline-flex items-center cursor-pointer gap-2 bg-white px-2 md:px-4 py-2 text-sm font-medium text-black shadow-sm hover:bg-neutral-300"
               (click)="createProject()"
             >
               <span class="flex h-6 w-6 items-center justify-center">
                 <svg
-                  class="h-4 w-4"
+                  class="h-6 w-6 md:h-4 md:w-4"
                   viewBox="0 0 24 24"
                   fill="none"
                   aria-hidden="true"
@@ -96,7 +51,20 @@
                   />
                 </svg>
               </span>
-              New Project
+              <div class="hidden md:block">New Project</div>
+            </button>
+            <button (click)="opendropdown()" class="block md:hidden">
+              <img
+                [src]="user.user?.avatar || '/icons/avatarw.svg'"
+                alt="no Image"
+                class="size-10 cursor-pointer ring-2 ring-logo rounded-full"
+              />
+              @if(dropdownOpen){
+                <div class="flex flex-col justify-around z-20 overflow-hidden absolute right-8 top-18 bg-p5 text-neutral-100 text-left shadow-lg rounded-lg divide-y divide-gray-">
+                  <a href="/" class="py-2 px-4">Home</a>
+                  <div (click)="logout(); closedropdown()" class="py-2 px-4 active:bg-gray-100 active:text-red-500">Logout</div>
+                </div>
+              }
             </button>
           </div>
         </div>
