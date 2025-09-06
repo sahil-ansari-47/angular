@@ -119,10 +119,11 @@
     font-family: monospace;
     display: inline-grid;
     font-size: 30px;
+    --loader-text: 'Logging in'
   }
   .text-loader:before,
   .text-loader:after {
-    content: "Logging in";
+    content: var(--loader-text);
     grid-area: 1/1;
     -webkit-mask-size: 2ch 100%, 100% 100%;
     -webkit-mask-repeat: no-repeat;
@@ -136,9 +137,6 @@
   .text-loader:after {
     -webkit-mask-image: linear-gradient(#ffffff 0 0);
     transform: scaleY(0.5);
-  }
-  canvas{
-   transition: transform 0.3s ease ;
   }
 }
 
