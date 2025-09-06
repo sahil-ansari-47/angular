@@ -39,12 +39,11 @@ export class Dashboard {
   constructor(
     public userService: UserService,
     public drawer: DrawerService,
-    private dialogservice: DialogService // private toasterService: ToasterService
+    private dialogservice: DialogService
   ) {
     // Only fetch user if NOT server-side
     if (isPlatformBrowser(this.platformId)) {
       this.fetchCurrentUser();
-      this.fetchProjects();
     }
     this.dialogservice.projectCreated$.subscribe(() => {
       this.UserProjects = [];
@@ -89,6 +88,7 @@ export class Dashboard {
         console.log('dashboard', user);
         if (user && !user.error) {
           this.userService.setUser(user);
+          this.fetchProjects();
         } else {
           this.userService.clearUser();
         }
@@ -131,6 +131,10 @@ export class Dashboard {
   }
 
   fetchProjects() {
+    if (!this.user.user?._id) {
+      console.warn('User not loaded yet, skipping project fetch');
+      return;
+    }
     fetch(`${this.apiUrl}/api/projects`)
       .then((res) => res.json())
       .then((projects: Project[]) => {
