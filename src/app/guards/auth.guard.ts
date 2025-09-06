@@ -8,6 +8,7 @@ export const authGuard = async () => {
   const userService = inject(UserService);
   const apiUrl = environment.apiUrl;
 
+  if (localStorage.getItem('user')) return true;
   // ✅ if we already have a user in memory, no need to block
   if (userService.user) {
     return true;
