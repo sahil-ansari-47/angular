@@ -354,12 +354,13 @@
             aria-label="Design shot card"
           >
             <div class="relative h-52 bg-neutral-900">
-              <img
+              <iframe src="{{ project.deployed_url }}" frameborder="0" class="w-full h-full object-cover"></iframe>
+              <!-- <img
                 src="placeholder.jpg"
                 alt=""
                 class="h-full w-full object-cover"
-              />
-              <ng-template #placeholder>
+              /> -->
+              <!-- <ng-template #placeholder>
                 <div class="absolute inset-0 flex items-center justify-center">
                   <svg
                     class="h-36 w-36 text-neutral-200"
@@ -416,7 +417,7 @@
                     <span class="sr-only">Image placeholder</span>
                   </div>
                 </div>
-              </ng-template>
+              </ng-template> -->
             </div>
 
             <div class="bg-white flex justify-between items-center pr-6">

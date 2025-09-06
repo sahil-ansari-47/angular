@@ -87,7 +87,7 @@ export class NewDialog implements OnInit, OnDestroy {
       const res = await fetch(`${this.apiUrl}/api/github/repos`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
-        }
+        },
       });
       const repos = await res.json();
       console.log(repos);
@@ -126,6 +126,8 @@ export class NewDialog implements OnInit, OnDestroy {
             body: JSON.stringify({
               repoUrl: repoUrl,
               deploy_id: data.id,
+              user_id: this.service.user._id,
+              username: this.service.user.username,
             }),
           });
         });
@@ -153,6 +155,8 @@ export class NewDialog implements OnInit, OnDestroy {
           body: JSON.stringify({
             repoUrl: `https://github.com/${repo.username}/${repo.name}`,
             deploy_id: data.id,
+            user_id: this.service.user._id,
+            username: this.service.user.username,
           }),
         });
 
