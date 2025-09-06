@@ -20,6 +20,6 @@ export class App {
     return this.router.url === '/' || window.location.hash === '#about';
   }
   get isCallback(): boolean {
-    return this.router.url === '/auth-callback';
+    return this.router.url.startsWith('/auth/callback');
   }
 }
