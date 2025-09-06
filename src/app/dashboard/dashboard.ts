@@ -19,6 +19,7 @@ import { ToasterService } from '../services/toastr';
 import { ToastrComponent } from '../components/toastr/toastr';
 import { RouterLink } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { AuthCallback } from '../auth-callback/auth-callback';
 @Component({
   selector: 'app-dashboard',
   imports: [
@@ -29,10 +30,12 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
     Card,
     ToastrComponent,
     RouterLink,
+    AuthCallback
   ],
   templateUrl: './dashboard.html',
 })
 export class Dashboard {
+  public dashboardloading = true;
   public loading = inject(LoadingService);
   private dialog = inject(DialogService);
   private platformId = inject(PLATFORM_ID);
@@ -85,6 +88,7 @@ export class Dashboard {
         console.log('dashboard', user);
         if (user && !user.error) {
           this.userService.setUser(user);
+          this.dashboardloading = false;
           this.fetchProjects();
         } else {
           this.userService.clearUser();

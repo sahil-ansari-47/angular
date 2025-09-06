@@ -1,4 +1,4 @@
-<app-drawer
+@if(!dashboardloading){<app-drawer
   [userprojects]="UserProjects.length"
   [communityprojects]="CommunityProjects.length"
 ></app-drawer>
@@ -336,7 +336,10 @@
             class="group w-full overflow-hidden rounded-[1.5rem] border border-neutral-200 bg-white shadow-sm transition-shadow hover:shadow-md"
             aria-label="Design shot card"
           >
-            <div (click)="followUrl(project.deployed_url)" class="relative h-52 bg-neutral-900">
+            <div
+              (click)="followUrl(project.deployed_url)"
+              class="relative h-52 bg-neutral-900"
+            >
               <iframe
                 [src]="project.safeUrl"
                 frameborder="0"
@@ -369,3 +372,6 @@
     </main>
   </div>
 </div>
+}@else {
+  <app-auth-callback></app-auth-callback>
+}

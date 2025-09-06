@@ -1,35 +1,21 @@
 import { CanActivateFn, Router } from '@angular/router';
-import { inject } from '@angular/core';
-import { environment } from '../../environments/environment';
+import { inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
-export const authGuard: CanActivateFn = async () => {
+export const authGuard: CanActivateFn = () => {
   const router = inject(Router);
-  const apiUrl = environment.apiUrl;
+  const platformId = inject(PLATFORM_ID);
 
-  try {
-    const response = await fetch(`${apiUrl}/api/auth/me`, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-    });
+  if (!isPlatformBrowser(platformId)) {
+    // Server-side: allow dashboard to render
+    return true;
+  }
 
-    if (!response.ok) {
-      console.log('authGuard: unauthorized');
-      router.navigate(['/']);
-      return false;
-    }
-
-    const user = await response.json();
-
-    if (user && !user.error) {
-      console.log('authGuard user', user);
-      return true;
-    } else {
-      console.log('authGuard no user');
-      router.navigate(['/']);
-      return false;
-    }
-  } catch (err) {
-    console.error('authGuard error:', err);
+  const token = localStorage.getItem('token');
+  if (!token) {
     router.navigate(['/']);
     return false;
   }
+
+  return true; // fetch user in component instead
 };
