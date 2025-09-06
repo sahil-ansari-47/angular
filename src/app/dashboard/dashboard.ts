@@ -1,4 +1,4 @@
-import { Component, inject, PLATFORM_ID, ViewChild } from '@angular/core';
+import { Component, Input, inject, PLATFORM_ID, ViewChild } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { UserService } from '../services/user';
 import { environment } from '../../environments/environment';
@@ -13,6 +13,7 @@ import { Project } from '../models/project.model';
 import { ToasterService } from '../services/toastr';
 import { ToastrComponent } from '../components/toastr/toastr';
 import { RouterLink } from '@angular/router';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 // import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-dashboard',
@@ -27,19 +28,20 @@ import { RouterLink } from '@angular/router';
   ],
   templateUrl: './dashboard.html',
 })
-export class Dashboard {
+export class Dashboard {  
   public loading = inject(LoadingService);
   private dialog = inject(DialogService);
   private platformId = inject(PLATFORM_ID);
   private apiUrl = environment.apiUrl;
   public user = inject(UserService);
+  private sanitizer = inject(DomSanitizer);
   private toasterService = inject(ToasterService);
   public UserProjects: Project[] = [];
-  public CommunityProjects: Project[] = [];
+  public CommunityProjects: (Project & { safeUrl: SafeResourceUrl })[] = [];
   constructor(
     public userService: UserService,
     public drawer: DrawerService,
-    private dialogservice: DialogService
+    private dialogservice: DialogService,
   ) {
     // Only fetch user if NOT server-side
     if (isPlatformBrowser(this.platformId)) {
@@ -59,15 +61,6 @@ export class Dashboard {
     console.log(msg, type);
     this.toasterService.success(msg, type);
   }
-
-  // showSuccess() {
-  //   console.log('success');
-  //   this.toastr.success('Project deployed successfully!', 'Success');
-  // }
-
-  // showError() {
-  //   this.toastr.error('Deployment failed!', 'Error');
-  // }
 
   loadingStates = [
     { text: 'Establishing Connection...' },
@@ -151,7 +144,10 @@ export class Dashboard {
               console.log('added to userprojects');
             } else {
               project.createdAtString = this.getRelativeTime(project.createdAt);
-              this.CommunityProjects.push(project);
+              this.CommunityProjects.push({
+              ...project,
+              safeUrl:this.sanitizer.bypassSecurityTrustResourceUrl(project.deployed_url)
+            });
               console.log('added to community projects');
             }
           });

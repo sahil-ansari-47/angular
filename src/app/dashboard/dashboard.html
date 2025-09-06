@@ -354,7 +354,7 @@
             aria-label="Design shot card"
           >
             <div class="relative h-52 bg-neutral-900">
-              <iframe src="{{ project.deployed_url }}" frameborder="0" class="w-full h-full object-cover"></iframe>
+              <iframe [src]="project.safeUrl" frameborder="0" class="w-full h-full object-cover"></iframe>
               <!-- <img
                 src="placeholder.jpg"
                 alt=""
