@@ -4,6 +4,7 @@ import {
   Input,
   OnDestroy,
   DoCheck,
+  Renderer2,
 } from '@angular/core';
 import { LoadingService } from '../../services/loading-service';
 import { animate, style, transition, trigger } from '@angular/animations';
@@ -36,10 +37,13 @@ export class MultiStepLoaderComponent implements DoCheck, OnDestroy {
   currentState = 0;
   private timerId: any = null;
 
-  constructor(public loadingService: LoadingService) {}
+  constructor(
+    public loadingService: LoadingService,
+    private renderer: Renderer2
+  ) {}
 
   get loading(): boolean {
-    return this.loadingService.isLoading(); // ✅ always get current service state
+    return this.loadingService.isLoading();
   }
 
   get translateY(): string {
@@ -52,14 +56,15 @@ export class MultiStepLoaderComponent implements DoCheck, OnDestroy {
   }
 
   ngDoCheck(): void {
-    // Watch service state manually
     if (this.loading && !this.timerId) {
+      this.disableScroll();
       this.setupTimer();
     }
     if (!this.loading && this.timerId) {
       clearTimeout(this.timerId);
       this.timerId = null;
       this.currentState = 0;
+      this.enableScroll();
     }
   }
 
@@ -87,16 +92,24 @@ export class MultiStepLoaderComponent implements DoCheck, OnDestroy {
           this.currentState++;
           this.setupTimer();
         } else {
-          // ✅ stop after one run
           this.loadingService.stopLoading();
         }
       }
     }, this.duration);
   }
 
+  private disableScroll() {
+    this.renderer.setStyle(document.body, 'overflow', 'hidden');
+  }
+
+  private enableScroll() {
+    this.renderer.removeStyle(document.body, 'overflow');
+  }
+
   ngOnDestroy(): void {
     if (this.timerId) {
       clearTimeout(this.timerId);
     }
+    this.enableScroll(); // always restore scroll on destroy
   }
 }
