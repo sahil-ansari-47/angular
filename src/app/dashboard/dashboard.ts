@@ -32,7 +32,6 @@ export class Dashboard {
   private dialog = inject(DialogService);
   private platformId = inject(PLATFORM_ID);
   private apiUrl = environment.apiUrl;
-  private user = inject(UserService);
   private toasterService = inject(ToasterService);
   public UserProjects: Project[] = [];
   public CommunityProjects: Project[] = [];
@@ -140,8 +139,8 @@ export class Dashboard {
 
         try {
           projects.forEach((project) => {
-            console.log(this.user.user._id);
-            if (project.user_id === this.user.user._id) {
+            console.log(this.userService.user._id);
+            if (project.user_id === this.userService.user._id) {
               project.last_commit_datetime = this.getRelativeTime(
                 project.last_commit_datetime
               );
