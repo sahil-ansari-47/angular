@@ -23,7 +23,7 @@ export class Docs {
     effect(() => {
       if (!isPlatformBrowser(this.platformId)) return;
 
-      if (this.shortcutopen.isOpen()) {
+      if (this.shortcutopen.isOpen() && window.innerWidth < 640) {
         document.body.classList.add('no-scroll');
       } else {
         document.body.classList.remove('no-scroll');
