@@ -1,4 +1,9 @@
-<header class="bg-transparent text-gray-300 font-sans relative">
+<header
+  class="text-gray-300 font-sans relative"
+  [ngClass]="{
+    'border-b border-neutral-700': isDocs
+  }"
+>
   <nav class="mx-auto max-w-screen-2xl px-6 z-1">
     <div class="flex h-14 items-center justify-between">
       <a href="#" class="flex items-center gap-2 text-white">
@@ -6,10 +11,10 @@
 
         <img src="Title.png" alt="" class="size-8" />
       </a>
-      <ul class="hidden md:flex items-center gap-10 text-lg ml-25">
+      <ul class="hidden md:flex items-center gap-10 text-lg">
         <li><a href="/" class="hover:text-white">Home</a></li>
         <li><a href="#about" class="hover:text-white">About</a></li>
-        <li><a href="#" class="hover:text-white">Docs</a></li>
+        <li><a href="/docs" class="hover:text-white">Docs</a></li>
         @if(userService.user$ | async){
         <li><a href="/dashboard" class="hover:text-white">Dashboard</a></li>
         }
@@ -24,6 +29,15 @@
         >
           Log In
         </button>
+        @if(isDocs){
+        <img
+          (click)="toggle()"
+          [ngClass]="{ 'rotate-180': shortcutopen.isOpen()}"
+          src="icons/hamburger.svg"
+          alt="ham"
+          class="size-8 ml-2 transition-transform sm:hidden"
+        />
+        }
         <!-- <button
           href="#"
           class="inline-flex cursor-pointer items-center rounded-xl bg-white px-3 py-1.5 text-sm font-semibold text-black hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/20"
@@ -36,7 +50,15 @@
         >
           Log Out
         </button>
-        }
+        @if(isDocs){
+        <img
+          (click)="toggle()"
+          [ngClass]="{ 'rotate-180': shortcutopen.isOpen() }"
+          src="icons/hamburger.svg"
+          alt="ham"
+          class="size-8 ml-2 transition-transform sm:hidden"
+        />
+        } }
       </div>
     </div>
   </nav>

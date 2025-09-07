@@ -20,6 +20,10 @@ export const routes: Routes = [
     path: 'auth/callback',
     loadComponent: () => import('./auth-callback/auth-callback').then((m) => m.AuthCallback),
   },
+  {
+    path: 'docs',
+    loadComponent: () => import('./docs/docs').then((m) => m.Docs),
+  },
   // Wildcard route to redirect to the home page for any unknown URLs.
   {
     path: '**',

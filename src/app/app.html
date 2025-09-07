@@ -1,12 +1,13 @@
 <div class="relative bg-gradient-to-tr from-p4 to-black overflow-x-clip">
-<!-- <div class="relative bg-p5 overflow-x-clip"> -->
-  @if (isHome) {
+  <!-- <div class="relative bg-p5 overflow-x-clip"> -->
+  @if (isHomeorDocs) {
+  <app-header />
+  <app-mobile-nav />
+  } @if(isHome){
   <div class="gc gc1 moveHorizontal"></div>
   <div class="gc gc2 moveVertical"></div>
   <div class="gc gc3 moveInCircle"></div>
   <div appInteractiveBubble class="interactive"></div>
-  <app-header />
-  <app-mobile-nav />
   }
   <main>
     <router-outlet />

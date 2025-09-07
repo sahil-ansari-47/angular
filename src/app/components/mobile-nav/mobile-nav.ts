@@ -2,17 +2,17 @@ import { Component, inject, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user';
 import { RouterModule } from '@angular/router';
-import { isPlatformBrowser } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-mobile-nav',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, CommonModule],
   templateUrl: './mobile-nav.html',
   styles: ``
 })
 export class MobileNav {
-  private router = inject(Router);
+  public router = inject(Router);
   public service = inject(UserService);
   private platformId = inject(PLATFORM_ID);
 

@@ -3,7 +3,8 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { UserService } from '../../services/user';
 import { DialogService } from '../../services/dialog';
 import { environment } from '../../../environments/environment';
-
+import { Router } from '@angular/router';
+import { Shortcutopen } from '../../services/shortcutopen';
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -11,10 +12,11 @@ import { environment } from '../../../environments/environment';
   templateUrl: './header.html',
 })
 export class Header {
+  public shortcutopen = inject(Shortcutopen);
   private dialog = inject(DialogService);
   private platformId = inject(PLATFORM_ID);
   private apiUrl = environment.apiUrl;
-
+  private router = inject(Router);
   constructor(public userService: UserService) {
     // Only fetch user if NOT server-side
     if (isPlatformBrowser(this.platformId)) {
@@ -55,5 +57,12 @@ export class Header {
       localStorage.removeItem('token');
       window.location.reload();
     });
+  }
+  get isDocs() {
+    return this.router.url.startsWith('/docs');
+  }
+  toggle() {
+    console.log('toggle');
+    this.shortcutopen.toggle();
   }
 }

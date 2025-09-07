@@ -1,0 +1,467 @@
+<div class="flex min-h-screen">
+  <!-- Sidebar -->
+  <aside
+    [ngClass]="
+      shortcutopen.isOpen()
+        ? 'translate-x-0 opacity-100'
+        : 'translate-x-full opacity-0 sm:translate-x-0 sm:opacity-100'
+    "
+    class="absolute top-[57px] z-20 sm:z-0 w-screen sm:w-64 transform transition-all duration-500 ease-in-out shrink-0 border-r border-neutral-700 bg-zinc-900 sm:sticky sm:top-0 h-screen sm:p-6 p-16"
+  >
+    <h2 class="text-lg font-bold mb-6 text-zinc-200 tracking-wide">
+      Shortcuts
+    </h2>
+
+    <nav class="flex flex-col gap-4 text-sm">
+      <!-- Accordion Items -->
+      @for (section of sections; let index = $index; track index) {
+      <div>
+        <button
+          (click)="toggleSection(index)"
+          class="w-full flex justify-between items-center cursor-pointer font-semibold text-zinc-300 hover:text-white text-base"
+        >
+          {{ section.title }}
+          <span
+            [ngClass]="openIndex === index ? 'rotate-90' : ''"
+            class="transition-transform"
+          >
+            <img src="icons/collapse.svg" alt="" class="size-4" />
+          </span>
+        </button>
+
+        <div
+          class="overflow-hidden transition-all duration-200"
+          [style.maxHeight]="openIndex === index ? '500px' : '0px'"
+        >
+          <ul class="pl-2 mt-2 ml-2 border-l border-logo flex flex-col gap-2">
+            @for (link of section.links; track link.fragment) {
+            <li>
+              <a
+                (click)="toggle()"
+                [routerLink]="['/docs']"
+                [fragment]="link.fragment"
+                class="hover:text-white text-zinc-400"
+              >
+                {{ link.label }}
+              </a>
+            </li>
+            }
+          </ul>
+        </div>
+      </div>
+      }
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main
+    class="py-10 text-white backdrop-blur-2xl bg-p5 max-w-screen sm:max-w-[calc(100vw-256px)]"
+  >
+    <div class="flex flex-col gap-2 px-8 sm:px-16">
+      <h1 class="text-center sm:text-left text-[26px] font-bold text-p6">
+        Jett Documentation
+      </h1>
+      <h2 class="hidden sm:block">
+        <a href="https://jett-deploy.vercel.app" target="_blank">Jett</a> is a
+        modern deployment app for
+        <a href="https://react.dev/" target="_blank">React</a> projects.
+      </h2>
+    </div>
+    <!-- Section 1 -->
+
+    <div class="flex flex-col divide-y-2 divide-neutral-700">
+      <section id="features" class="py-20 px-8 sm:px-16">
+        <h1 class="text-2xl font-semibold">Features</h1>
+        <ul class="list-disc pl-4">
+          <li class="mt-4">
+            Microservice architecture - independently scalable services.
+          </li>
+          <li class="mt-2">
+            Modern frontend -
+            <a href="https://angular.dev/" target="_blank">Angular</a> 20 + SSR
+            for speed and SEO.
+          </li>
+          <li class="mt-2">
+            Secure authentication -
+            <a href="https://www.jwt.io/" target="_blank">JWT</a>-based auth via
+            middleware.
+          </li>
+          <li class="mt-2">
+            <a href="https://www.cloudflare.com/en-in/" target="_blank"
+              >Cloudflare R2</a
+            >
+            integration - scalable object storage.
+          </li>
+          <li class="mt-2">
+            <a href="https://redis.io/" target="_blank">Redis</a> hashset -
+            real-time deployment status tracking.
+          </li>
+          <li class="mt-2">
+            <a href="https://www.docker.com/" target="_blank">Dockerized</a>
+            services - containerized deployments on Render.
+          </li>
+          <li class="mt-2">
+            CI/CD automation -
+            <a href="https://github.com/features/actions" target="_blank"
+              >GitHub Actions</a
+            >
+            for building + deploying projects.
+          </li>
+          <li class="mt-2">
+            Community showcase - explore and share deployed projects.
+          </li>
+        </ul>
+      </section>
+      <!-- Getting Started -->
+      <section id="getting-started" class="py-20 px-8 sm:px-16">
+        <h1 class="text-2xl font-semibold">Getting Started</h1>
+        <p class="mt-4">
+          You can build and host your
+          <a href="https://react.dev/" target="_blank">React</a> apps through
+          Jett. Our microservice architecture provides a smooth and scalable
+          deployment process with clear separation of concerns. You can also
+          explore community projects to gain insights on the latest trends and
+          best practices.
+        </p>
+        <p class="mt-4">
+          To begin, push your project to a
+          <a href="https://github.com/" target="_blank">GitHub</a> repository.
+          Once that's ready, connect your repository to Jett by granting access
+          to your GitHub account. The middleware will request permission to view
+          your public repositories. You can also provide a link to a third-party
+          repository you want to deploy — both will show up in your projects
+          dashboard.
+        </p>
+        <p class="mt-4">
+          After clicking on <em>Deploy</em>, a request is sent to the middleware
+          to trigger the CI/CD pipeline. The system automatically handles
+          building, containerizing, and serving your application, so you can
+          focus on development while Jett takes care of the infrastructure.
+        </p>
+      </section>
+      <!-- Deployment -->
+      <section id="deployment" class="py-20 px-8 sm:px-16">
+        <h1 class="text-2xl font-semibold">Deployment</h1>
+        <p class="mt-4">
+          Deployments through Jett are fully automated. Jett builds and tests
+          your static files, and publishes them to the cloud. These containers
+          are deployed directly on
+          <a href="https://render.com/" target="_blank">Render</a>, ensuring
+          high availability and smooth scaling. Additionally, Jett runs a cron
+          job on event triggers to monitor the deployment and fetch live status.
+          You will be notified about the deployment status through toast
+          notifications.
+        </p>
+        <p class="mt-4">
+          You don't need to worry about managing registries, build pipelines, or
+          servers. Just ensure your project resides in your repository root.
+          Jett takes your code, runs it through the CI/CD pipeline, and returns
+          the deployment URL right in the dashboard. Once the process finishes,
+          your project is live and can be shared instantly.
+        </p>
+        <p class="mt-4">
+          However, it shall be noted that as the webservices are deployed on
+          <a href="https://render.com/" target="_blank">Render</a> so there is
+          no 24/7 service. On requests after considerable downtime, the system
+          undergoes a cold start. Hence, you might have to reload the page to
+          fetch latest status. But after the cold start barrier is crossed, the
+          system is back to operating smoothly with live fetching of deployment
+          status.
+        </p>
+        <p class="mt-4">
+          If error persists feel free to contact us, leave comments and
+          suggestions for improvement.
+        </p>
+      </section>
+      <!-- Overview -->
+      <section id="overview" class="flex flex-col py-20 px-8 sm:px-16">
+        <h1 class="text-2xl font-semibold">Overview</h1>
+        <img src="/architecture.png" alt="" class="w-fit self-center mt-4" />
+        <p class="mt-4">
+          Under the hood, Jett is powered by a microservice architecture. The
+          <a href="https://angular.dev/" target="_blank">Angular 20</a> frontend
+          runs with server-side rendering for speed, while the
+          <a href="https://expressjs.com/" target="_blank">Express</a>
+          middleware manages authentication and routing.
+          <a href="https://www.cloudflare.com/en-in/" target="_blank"
+            >Cloudflare R2</a
+          >
+          handles object storage for deployment assets, and Redis provides
+          real-time tracking of deployment states. All services are
+          containerized with
+          <a href="https://www.docker.com/" target="_blank">Docker</a> and
+          hosted on <a href="https://render.com/" target="_blank">Render</a>,
+          keeping them isolated, secure, and independently scalable.
+        </p>
+      </section>
+      <!-- GitHub -->
+      <section id="repositories" class="py-20 px-8 sm:px-16">
+        <h1 class="text-2xl font-semibold">Repositories</h1>
+        <div class="mt-4">
+          <div class="my-4">Feel free to browse through our code</div>
+          <!-- Repo Details -->
+          <div class="mt-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div class="p-4 rounded-lg border bg-neutral-800">
+                <h3 class="font-medium">Frontend</h3>
+                <p class="text-sm mt-1">
+                  <a href="https://www.angular.dev" target="_blank"
+                    >Angular 20</a
+                  >
+                  app with server-side rendering,
+                  <a href="https://tailwindcss.com/" target="_blank"
+                    >tailwindcss</a
+                  >
+                  for styling, and standalone components lazy loaded for speedy
+                  loading.
+                </p>
+                <a
+                  href="https://github.com/sahil-ansari-47/jett-frontend"
+                  target="_blank"
+                  class="text-blue-600 hover:underline text-sm mt-2 inline-block"
+                  >jett-frontend</a
+                >
+              </div>
+              <div class="p-4 rounded-lg border bg-neutral-800">
+                <h3 class="font-medium">Middleware</h3>
+                <p class="text-sm mt-1">
+                  <a href="https://expressjs.com/" target="_blank">Express</a
+                  >-based gateway handling authentication &amp; DB connection.
+                  Enhanced security features with Jwt such as trashing revoked
+                  tokens in a
+                  <a href="https://www.mongodb.com/" target="_blank">Mongodb</a>
+                  collections.
+                </p>
+                <a
+                  href="https://github.com/sahil-ansari-47/jett-middleware"
+                  target="_blank"
+                  class="text-blue-600 hover:underline text-sm mt-2 inline-block"
+                  >jett-middleware</a
+                >
+              </div>
+              <div class="p-4 rounded-lg border bg-neutral-800">
+                <h3 class="font-medium">Upload Service</h3>
+                <p class="text-sm mt-1">
+                  Clones repos, uploads to
+                  <a href="https://www.cloudflare.com/en-in/" target="_blank"
+                    >Cloudflare R2</a
+                  >, updates
+                  <a href="https://redis.io/" target="_blank">Redis</a>. Also
+                  triggers
+                  <a href="https://github.com/features/actions" target="_blank"
+                    >Github Actions</a
+                  >
+                  for building static files.
+                </p>
+                <a
+                  href="https://github.com/Sandarva-9304/jett-upload-service"
+                  target="_blank"
+                  class="text-blue-600 hover:underline text-sm mt-2 inline-block"
+                  >jett-upload-service</a
+                >
+              </div>
+              <div class="p-4 rounded-lg border bg-neutral-800">
+                <h3 class="font-medium">Deploy Service</h3>
+                <p class="text-sm mt-1">
+                  <a href="https://github.com/features/actions" target="_blank"
+                    >GitHub Actions</a
+                  >
+                  worker, builds + redeploys assets to R2. Event triggered
+                  function to ensure proper resource management.
+                </p>
+                <a
+                  href="https://github.com/Sandarva-9304/jett-deploy-service"
+                  target="_blank"
+                  class="text-blue-600 hover:underline text-sm mt-2 inline-block"
+                  >jett-deploy-service</a
+                >
+              </div>
+              <div class="p-4 rounded-lg border bg-neutral-800">
+                <h3 class="font-medium">Request Handler</h3>
+                <p class="text-sm mt-1">
+                  Serves static assets from R2, routes deployment requests.
+                </p>
+                <a
+                  href="https://github.com/Sandarva-9304/jett-request-handler-service"
+                  target="_blank"
+                  class="text-blue-600 hover:underline text-sm mt-2 inline-block"
+                  >jett-request-handler-service</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Local Setup -->
+      <section id="local" class="py-20 px-8 sm:px-16">
+        <h1 class="text-2xl font-semibold mb-5">Your Local Setup</h1>
+        <div class="relative">
+          <pre
+            class="bg-neutral-800 text-white py-4 rounded-lg overflow-x-auto text-sm flex items-center"
+          >
+            <code class="language-bash">    git clone https://github.com/sahil-ansari-47/jett-frontend
+    git clone https://github.com/sahil-ansari-47/jett-middleware
+    git clone https://github.com/Sandarva-9304/jett-upload-service
+    git clone https://github.com/Sandarva-9304/jett-deploy-service
+    git clone https://github.com/Sandarva-9304/jett-request-handler-service</code>
+            </pre>
+          <button
+            class="absolute right-2 top-2 cursor-pointer px-2 py-1 text-xs bg-zinc-700 hover:bg-zinc-600 rounded text-white"
+            onclick="navigator.clipboard.writeText(`git clone https://github.com/sahil-ansari-47/jett-frontend
+      git clone https://github.com/sahil-ansari-47/jett-middleware
+      git clone https://github.com/Sandarva-9304/jett-upload-service
+      git clone https://github.com/Sandarva-9304/jett-deploy-service
+      git clone https://github.com/Sandarva-9304/jett-request-handler-service`)"
+          >
+            <img src="/icons/copy.svg" alt="Copy" class="size-4" />
+          </button>
+        </div>
+        <p class="mt-4">
+          Once all repositories are cloned to your local, you'll need to install
+          dependencies for each microservice. Navigate into the service folder,
+          then install packages and start the dev server:
+        </p>
+        <!-- Install Dependencies -->
+        <div class="relative mt-4">
+          <pre
+            class="bg-neutral-800 text-white p-4 rounded-lg overflow-x-auto text-sm"
+          >
+  <code class="language-bash">cd jett-&lt;service-name&gt;
+  npm install
+  npm run dev</code></pre>
+          <button
+            class="absolute right-2 top-2 cursor-pointer px-2 py-1 text-xs bg-zinc-700 hover:bg-zinc-600 rounded text-white"
+            onclick="navigator.clipboard.writeText('cd jett-<service-name>\nnpm install\nnpm run dev')"
+          >
+            <img src="/icons/copy.svg" alt="Copy" class="size-4" />
+          </button>
+        </div>
+        <p class="mt-4">
+          With everything running, you can access the frontend in your browser
+          at:
+        </p>
+        <!-- Access Frontend -->
+        <div class="relative mt-4">
+          <pre
+            class="bg-neutral-800 text-white p-4 rounded-lg overflow-x-auto text-sm"
+          >
+  <code class="language-bash">http://localhost:4200</code></pre>
+          <button
+            class="absolute right-2 top-2 cursor-pointer px-2 py-1 text-xs bg-zinc-700 hover:bg-zinc-600 rounded text-white"
+            onclick="navigator.clipboard.writeText('http://localhost:4200')"
+          >
+            <img src="/icons/copy.svg" alt="Copy" class="size-4" />
+          </button>
+        </div>
+        <p class="mt-4">
+          This will start the backend and frontend servers locally.
+          Simultaneously open Redis for testing deployments. Once you're
+          confident your app works locally, you can start testing and making
+          changes.
+        </p>
+      </section>
+      <!-- Redis & WSL -->
+      <section id="redis-wsl" class="py-20 px-8 sm:px-16">
+        <h1 class="text-2xl font-semibold">Redis & WSL</h1>
+        <p class="mt-4">
+          <a href="https://redis.io/" target="_blank">Redis</a> is used
+          internally by Jett to keep track of real-time deployment states. If
+          you're on
+          <a href="https://www.windows.com/" target="_blank">Windows</a> and
+          want to replicate the setup locally, you may need
+          <a href="https://ubuntu.com/desktop/wsl" target="_blank">WSL</a> with
+          <a href="https://ubuntu.com/" target="_blank">Ubuntu</a>. Install
+          <a href="https://ubuntu.com/desktop/wsl" target="_blank">WSL</a> from
+          the
+          <a
+            href="https://learn.microsoft.com/en-us/windows/wsl/install"
+            target="_blank"
+            >Microsoft Store</a
+          >, then set up Redis inside the
+          <a href="https://linux.org/" target="_blank">Linux</a> environment. If
+          you are already on
+          <a href="https://www.linux.org/" target="_blank">Linux</a>, you can
+          install Redis directly.
+        </p>
+        <!-- Install Redis -->
+        <div class="relative mt-4">
+          <pre
+            class="bg-neutral-800 text-white p-4 rounded-lg overflow-x-auto text-sm"
+          >
+  <code class="language-bash">sudo apt-get install redis</code></pre>
+          <button
+            class="absolute right-2 top-2 cursor-pointer px-2 py-1 text-xs bg-zinc-700 hover:bg-zinc-600 rounded text-white"
+            onclick="navigator.clipboard.writeText('sudo apt-get install redis')"
+          >
+            <img src="/icons/copy.svg" alt="Copy" class="size-4" />
+          </button>
+        </div>
+        <!-- Start Redis -->
+        <p class="mt-4">Lastly, start the Redis server like so:</p>
+        <div class="relative mt-2">
+          <pre
+            class="bg-neutral-800 text-white p-4 rounded-lg overflow-x-auto text-sm"
+          >
+  <code class="language-bash">sudo service redis-server start</code>
+      </pre>
+          <button
+            class="absolute right-2 top-2 cursor-pointer px-2 py-1 text-xs bg-zinc-700 hover:bg-zinc-600 rounded text-white"
+            onclick="navigator.clipboard.writeText('sudo service redis-server start')"
+          >
+            <img src="/icons/copy.svg" alt="Copy" class="size-4" />
+          </button>
+        </div>
+        <!-- Connect to Redis -->
+        <p class="mt-4">
+          Once Redis is running, you can test it by running the Redis CLI:
+        </p>
+        <div class="relative mt-2">
+          <pre
+            class="bg-neutral-800 text-white p-4 rounded-lg overflow-x-auto text-sm"
+          >
+  <code class="language-bash">redis-cli</code>
+      </pre>
+          <button
+            class="absolute right-2 top-2 cursor-pointer px-2 py-1 text-xs bg-zinc-700 hover:bg-zinc-600 rounded text-white"
+            onclick="navigator.clipboard.writeText('redis-cli')"
+          >
+            <img src="/icons/copy.svg" alt="Copy" class="size-4" />
+          </button>
+        </div>
+        <!-- Test Ping -->
+        <p class="mt-4">
+          Test the connection with the <code>ping</code> command:
+        </p>
+        <div class="relative mt-2">
+          <pre
+            class="bg-neutral-800 text-white p-4 rounded-lg overflow-x-auto text-sm"
+          >
+  <code class="language-bash">127.0.0.1:6379> ping
+  PONG</code></pre>
+          <button
+            class="absolute right-2 top-2 cursor-pointer px-2 py-1 text-xs bg-zinc-700 hover:bg-zinc-600 rounded text-white"
+            onclick="navigator.clipboard.writeText('127.0.0.1:6379> ping\nPONG')"
+          >
+            <img src="/icons/copy.svg" alt="Copy" class="size-4" />
+          </button>
+        </div>
+        <p class="mt-4">
+          Once Redis is running, configure your environment variables to point
+          to
+          <code>localhost:6379</code>. For most users, this is only necessary
+          when testing microservices locally — Jett manages Redis for you in the
+          cloud.
+        </p>
+      </section>
+      <!-- Section 4 -->
+      <section id="contribute" class="pb-20 py-20 px-8 sm:px-16">
+        <h1 class="text-2xl font-semibold">Contributions</h1>
+        <p class="mt-4">
+          We welcome your contributions! <br />
+          Fork our GitHub repo , make your changes, and create a pull request.
+          Together we'll make Jett even better.
+        </p>
+      </section>
+    </div>
+  </main>
+</div>
