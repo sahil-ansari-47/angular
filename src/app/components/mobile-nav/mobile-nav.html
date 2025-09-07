@@ -7,7 +7,7 @@
     class="rounded-2xl border border-white/10 bg-zinc-900/80 backdrop-blur supports-[backdrop-filter]:bg-zinc-900/60 shadow-lg"
   >
     <ul class="flex items-center justify-around px-1 py-3">
-      @if((router.url === '/' || router.url.startsWith('/docs') || router.url.startsWith('/#') || router.url.startsWith('/dashboard')) && (!service.user || router.url === '/docs')){
+      @if((router.url === '/' || router.url.startsWith('/#')) && (!service.user) || router.url.startsWith('/docs') || router.url.startsWith('/dashboard')){
         <li>
           <a
             href="/"
