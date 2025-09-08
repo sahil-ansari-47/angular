@@ -28,13 +28,13 @@
           Start Deploying
         </button>
 
-        <button
-          type="button"
+        <a
+          href="/docs"
           class="inline-flex items-center justify-center gap-2 rounded-lg bg-transparent px-4 py-2 text-sm font-medium text-white ring-1 ring-white/20 transition-colors hover:bg-white/10 hover:cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
         >
           <img src="/icons/learn more.svg" alt="" class="size-4" />
           Learn More
-        </button>
+        </a>
       </div>
     </div>
     <div class="flex flex-col gap-10 mb-20 pt-10" id="about">
@@ -48,14 +48,13 @@
           Jett is a modern deployment service built with a robust microservice
           architecture. Its frontend is developed using Angular 20 with
           server-side rendering, paired with an Express backend that leverages
-          JWT for secure authentication. The platform orchestrates
-          deployment workflows through three dedicated microservices: a request
-          handler service to manage user requests, an upload service that
-          integrates with Cloudflare R2 for scalable storage, and a deploy
-          service powered by a GitHub Actions worker to automate project
-          deployments. The request handler and upload services are containerized
-          using Docker and deployed on Render, ensuring reliable scalability and
-          isolation.
+          JWT for secure authentication. The platform orchestrates deployment
+          workflows through three dedicated microservices: a request handler
+          service to manage user requests, an upload service that integrates
+          with Cloudflare R2 for scalable storage, and a deploy service powered
+          by a GitHub Actions worker to automate project deployments. The
+          request handler and upload services are containerized using Docker and
+          deployed on Render, ensuring reliable scalability and isolation.
         </p>
         <p>
           To provide real-time feedback, Jett uses a Redis hashset to track the

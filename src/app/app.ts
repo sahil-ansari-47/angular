@@ -20,9 +20,9 @@ export class App {
       return;
   }
   get isHome(): boolean {
-    return this.router.url === '/';
+    return this.router.url === '/' || this.router.url.startsWith('/#');
   }
   get isHomeorDocs(): boolean {
-    return this.router.url === '/' || this.router.url.startsWith('/docs') || window.location.hash === '#about';
+    return this.router.url === '/' || this.router.url.startsWith('/docs') || this.router.url.startsWith('/#');
   }
 }
