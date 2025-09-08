@@ -1,5 +1,5 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://jett-middleware.onrender.com', // or use process.env at build time
+  apiUrl: 'http://localhost:3000', // or use process.env at build time
   deployendpoint: 'https://jett-upload-service.onrender.com/deploy',
 };

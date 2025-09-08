@@ -183,7 +183,7 @@
           @for(project of UserProjects ; track project.deploy_id){
           <app-card [project]="project">
             <article
-              class="group rounded-3xl h-62 border border-gray-200 bg-white p-5 md:p-6 shadow-sm transition-shadow hover:shadow-md flex flex-col justify-between"
+              class="group rounded-3xl h-64 xs:h-62 border border-gray-200 bg-white p-5 md:p-6 shadow-sm transition-shadow hover:shadow-md flex flex-col justify-between"
               aria-label="Project card"
             >
               <header class="flex items-start justify-between gap-3">
@@ -192,7 +192,7 @@
                     <a
                       href="{{ project.deployed_url }}"
                       target="_blank"
-                      class="text-base md:text-lg font-semibold text-gray-900 text-pretty"
+                      class="text-sm xs:text-base md:text-lg font-semibold text-gray-900 text-pretty"
                     >
                       {{ project.project_name }}-{{ project.deploy_id }}
                     </a>
@@ -210,7 +210,7 @@
                           project.status === 'building'
                       }"
                     ></div>
-                    <div class="text-sm -translate-y-0.5 text-black">
+                    <div class="text-xs xs:text-sm -translate-y-0.5 text-black">
                       @switch (project.status) { @case ('uploaded') { Uploaded }
                       @case ('building') { Building... } @case ('deployed') {
                       Deployed! } @case ('failed') { Failed! } @default {
@@ -313,6 +313,7 @@
                   >
                     View repo
                   </a>
+                  @if(project.deployed_url){
                   <a
                     href="{{ project.deployed_url }}"
                     target="_blank"
@@ -320,6 +321,7 @@
                   >
                     Open
                   </a>
+                  }
                 </div>
               </footer>
             </article>
@@ -331,7 +333,7 @@
       <section
         id="community"
         aria-labelledby="community-title"
-        class="px-8 pt-10 mx-auto"
+        class="relative px-8 pt-10 mx-auto"
       >
         <header class="mb-4">
           <h2
@@ -342,15 +344,40 @@
           </h2>
         </header>
 
-        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          @for(project of CommunityProjects ; track project.deploy_id){
+        <!-- Right Arrow -->
+        <img
+          src="/icons/right.svg"
+          alt="scroll right"
+          class="z-20 absolute top-1/2 right-10 size-8 rounded-full p-2 cursor-pointer bg-black/40"
+          [class.block]="canScrollRight"
+          [class.hidden]="!canScrollRight"
+          (click)="scrollRight(scrollContainer)"
+        />
+
+        <!-- Left Arrow -->
+        <img
+          src="/icons/right.svg"
+          alt="scroll left"
+          class="rotate-180 z-20 absolute top-1/2 left-10 size-8 rounded-full p-2 cursor-pointer bg-black/40"
+          [class.block]="canScrollLeft"
+          [class.hidden]="!canScrollLeft"
+          (click)="scrollLeft(scrollContainer)"
+        />
+
+        <!-- Scrollable Container -->
+        <div
+          #scrollContainer
+          class="flex gap-6 overflow-x-auto sm:grid sm:grid-cols-2 lg:grid-cols-3 hide-scrollbar"
+          (scroll)="updateScrollButtons(scrollContainer)"
+        >
+          @for (project of CommunityProjects; track project.deploy_id) {
           <article
-            class="group w-full overflow-hidden rounded-[1.5rem] border border-neutral-200 bg-white shadow-sm transition-shadow hover:shadow-md"
+            class="group min-w-[100%] sm:w-full overflow-hidden rounded-[1.5rem] border border-neutral-200 bg-white shadow-sm transition-shadow hover:shadow-md"
             aria-label="Design shot card"
           >
             <div
               (click)="followUrl(project.deployed_url)"
-              class="relative h-52 bg-neutral-900"
+              class="relative h-48 xs:h-52 bg-neutral-900"
             >
               <iframe
                 [src]="project.safeUrl"
@@ -373,9 +400,9 @@
                   by {{ project.username }}
                 </p>
               </div>
-              <time class="text-sm text-neutral-500">{{
-                project.createdAtString
-              }}</time>
+              <time class="text-sm text-neutral-500">
+                {{ project.createdAtString }}
+              </time>
             </div>
           </article>
           }

@@ -1,9 +1,4 @@
-import {
-  Component,
-  inject,
-  PLATFORM_ID,
-  HostListener,
-} from '@angular/core';
+import { Component, inject, PLATFORM_ID, HostListener } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { UserService } from '../services/user';
 import { environment } from '../../environments/environment';
@@ -20,7 +15,7 @@ import { ToastrComponent } from '../components/toastr/toastr';
 import { RouterLink } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { AuthCallback } from '../auth-callback/auth-callback';
-import { MobileNav } from "../components/mobile-nav/mobile-nav";
+import { MobileNav } from '../components/mobile-nav/mobile-nav';
 @Component({
   selector: 'app-dashboard',
   imports: [
@@ -32,8 +27,8 @@ import { MobileNav } from "../components/mobile-nav/mobile-nav";
     ToastrComponent,
     RouterLink,
     AuthCallback,
-    MobileNav
-],
+    MobileNav,
+  ],
   templateUrl: './dashboard.html',
 })
 export class Dashboard {
@@ -208,7 +203,27 @@ export class Dashboard {
         }
       });
   }
-  followUrl(deployed_url: string){
+  canScrollLeft = false;
+  canScrollRight = true;
+
+  scrollRight(container: HTMLElement) {
+    const width = container.clientWidth+24;
+    container.scrollBy({ left: width, behavior: 'smooth' });
+    setTimeout(() => this.updateScrollButtons(container), 300);
+  }
+
+  scrollLeft(container: HTMLElement) {
+    const width = container.clientWidth+24;
+    container.scrollBy({ left: -width, behavior: 'smooth' });
+    setTimeout(() => this.updateScrollButtons(container), 300);
+  }
+
+  updateScrollButtons(container: HTMLElement) {
+    this.canScrollLeft = container.scrollLeft > 0;
+    this.canScrollRight =
+      container.scrollLeft + container.clientWidth < container.scrollWidth - 5;
+  }
+  followUrl(deployed_url: string) {
     window.open(deployed_url, '_blank');
   }
 }

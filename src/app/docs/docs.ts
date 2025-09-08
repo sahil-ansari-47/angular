@@ -56,7 +56,10 @@ export class Docs {
     },
     {
       title: 'Contributions',
-      links: [{ label: 'How to Contribute', fragment: 'contribute' }],
+      links: [
+        {label: 'Meet Our Devs', fragment: 'devs'},
+        { label: 'How to Contribute', fragment: 'contribute' }
+      ],
     },
   ];
 
