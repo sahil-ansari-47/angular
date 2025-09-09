@@ -190,7 +190,7 @@
                 <div class="flex flex-col items-start gap-2">
                   <div class="min-w-0">
                     <a
-                      href="{{ project.deployed_url.slice(0, -11) }}"
+                      href="{{ project.deployed_url.slice(0, -10) }}"
                       target="_blank"
                       class="text-sm xs:text-base md:text-lg font-semibold text-gray-900 text-pretty"
                     >
@@ -315,7 +315,7 @@
                   </a>
                   @if(project.deployed_url){
                   <a
-                    href="{{ project.deployed_url.slice(0, -11)}}"
+                    href="{{ project.deployed_url.slice(0, -10)}}"
                     target="_blank"
                     class="inline-flex items-center justify-center rounded-full bg-gray-900 px-4 py-2 text-sm font-semibold text-white hover:bg-gray-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
                   >
@@ -376,7 +376,7 @@
             aria-label="Design shot card"
           >
             <div
-              (click)="followUrl(project.deployed_url)"
+              (click)="followUrl(project.deployed_url.slice(0, -10))"
               class="relative h-48 xs:h-52 bg-neutral-900"
             >
               <iframe
@@ -390,7 +390,7 @@
             <div class="bg-white flex justify-between items-center pr-6">
               <div class="px-5 py-4 md:px-6 md:py-5">
                 <a
-                  href="{{ project.deployed_url }}"
+                  href="{{ project.deployed_url.slice(0, -10) }}"
                   target="_blank"
                   class="text-base md:text-lg font-semibold leading-tight text-neutral-900 hover:underline text-pretty"
                 >
