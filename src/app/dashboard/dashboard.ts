@@ -1,5 +1,9 @@
 import { Component, inject, PLATFORM_ID, HostListener } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import {
+  CommonModule,
+  isPlatformBrowser,
+  PlatformLocation,
+} from '@angular/common';
 import { UserService } from '../services/user';
 import { environment } from '../../environments/environment';
 import { MultiStepLoaderComponent } from '../components/multi-step-loader/multi-step-loader';
@@ -47,10 +51,9 @@ export class Dashboard {
     public drawer: DrawerService,
     private dialogservice: DialogService
   ) {
+    if (!isPlatformBrowser(this.platformId)) return;
     // Only fetch user if NOT server-side
-    if (isPlatformBrowser(this.platformId)) {
-      this.fetchCurrentUser();
-    }
+    this.fetchCurrentUser();
     this.dialogservice.projectCreated$.subscribe(() => {
       this.UserProjects = [];
       this.CommunityProjects = [];
@@ -204,16 +207,16 @@ export class Dashboard {
       });
   }
   canScrollLeft = false;
-  canScrollRight = true;
+  canScrollRight = window.innerWidth < 640 ? true : false;
 
   scrollRight(container: HTMLElement) {
-    const width = container.clientWidth+24;
+    const width = container.clientWidth + 24;
     container.scrollBy({ left: width, behavior: 'smooth' });
     setTimeout(() => this.updateScrollButtons(container), 300);
   }
 
   scrollLeft(container: HTMLElement) {
-    const width = container.clientWidth+24;
+    const width = container.clientWidth + 24;
     container.scrollBy({ left: -width, behavior: 'smooth' });
     setTimeout(() => this.updateScrollButtons(container), 300);
   }
